@@ -1,0 +1,86 @@
+import { getCountryByCode } from '@/lib/api'
+import Image from 'next/image'
+import Link from 'next/link'
+
+type Props = { params: { code: string } }
+
+export default async function CountryPage({ params }: Props) {
+  const country = await getCountryByCode(params.code)
+
+  if (!country) {
+    return (
+      <main className="p-6">
+        <p>Country not found.</p>
+        <Link href="/" className="text-blue-600 underline">
+          ← Back
+        </Link>
+      </main>
+    )
+  }
+
+  const flag = country.flags?.svg || country.flags?.png || ''
+
+  return (
+    <main className="p-6">
+      <Link href="/" className="text-blue-600 underline">
+        ← Back
+      </Link>
+
+      <div className="mt-6 flex flex-col gap-6 lg:flex-row">
+        {flag && (
+          <div className="relative w-full lg:w-1/2 aspect-[4/3] rounded-xl overflow-hidden">
+            <Image
+              src={flag}
+              alt={country.flags?.alt || `${country.name.common} flag`}
+              fill
+              className="object-cover"
+            />
+          </div>
+        )}
+
+        <div className="lg:w-1/2 space-y-2">
+          <h1 className="text-3xl font-bold">{country.name.common}</h1>
+          <p>
+            <span className="font-semibold">Region:</span> {country.region}
+          </p>
+          <p>
+            <span className="font-semibold">Population:</span>{' '}
+            {country.population.toLocaleString()}
+          </p>
+          {country.capital && (
+            <p>
+              <span className="font-semibold">Capital:</span>{' '}
+              {country.capital.join(', ')}
+            </p>
+          )}
+          {country.languages && (
+            <p>
+              <span className="font-semibold">Languages:</span>{' '}
+              {Object.values(country.languages).join(', ')}
+            </p>
+          )}
+          {country.currencies && (
+            <p>
+              <span className="font-semibold">Currencies:</span>{' '}
+              {Object.values(country.currencies)
+                .map((c: any) => c.name)
+                .join(', ')}
+            </p>
+          )}
+          {country.timezones && (
+            <p>
+              <span className="font-semibold">Timezones:</span>{' '}
+              {country.timezones.join(', ')}
+            </p>
+          )}
+          {country.borders && country.borders.length > 0 && (
+            <p>
+              <span className="font-semibold">Borders:</span>{' '}
+              {country.borders.join(', ')}
+            </p>
+          )}
+        </div>
+      </div>
+    </main>
+  )
+}
