@@ -5,8 +5,16 @@ export default async function Home() {
 
   return (
     <main className="min-h-dvh p-6">
-      <h1 className="text-3xl font-bold">REST Countries</h1>
-      <p className="mt-2 text-gray-600">Antal länder: {countries.length}</p>
+      <h1 className="text-3xl font-bold mb-4">REST Countries</h1>
+      <p className="mb-4 text-gray-600">Total countries: {countries.length}</p>
+
+      <ul className="list-disc pl-6 space-y-1">
+        {countries.slice(0, 20).map((c) => (
+          <li key={c.cca3} className="text-gray-800">
+            {c.name.common}
+          </li>
+        ))}
+      </ul>
     </main>
   )
 }
