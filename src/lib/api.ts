@@ -4,11 +4,17 @@ export type Country = {
   region: string
   population: number
   flags?: { svg?: string; png?: string; alt?: string }
+
+  // detail fields used on the country page:
+  capital?: string[]
+  languages?: Record<string, string>
+  currencies?: Record<string, { name: string; symbol?: string }>
+  timezones?: string[]
+  borders?: string[]
 }
 
 export async function getAllCountries(): Promise<Country[]> {
   const res = await fetch(
-    // include just the fields we need
     'https://restcountries.com/v3.1/all?fields=name,cca3,region,population,flags',
     { next: { revalidate: 86400 } }
   )
@@ -23,5 +29,5 @@ export async function getCountryByCode(code: string): Promise<Country | null> {
   )
   if (!res.ok) return null
   const data = await res.json()
-  return Array.isArray(data) ? data[0] : data // API sometimes returns array
+  return Array.isArray(data) ? (data[0] as Country) : (data as Country)
 }
