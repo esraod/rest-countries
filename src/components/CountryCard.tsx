@@ -9,16 +9,18 @@ export default function CountryCard({ country }: { country: Country }) {
   return (
     <Link
       href={`/country/${country.cca3}`}
-      className="block rounded-2xl border p-4 shadow hover:shadow-md transition"
+      className="block rounded border p-4 shadow hover:shadow-md transition bg-white"
     >
       {flag && (
-        <div className="relative w-full aspect-[4/3] mb-3 overflow-hidden rounded-xl">
+        <div className="relative w-full aspect-[4/3] mb-3 overflow-hidden rounded">
           <Image src={flag} alt={alt} fill className="object-cover" />
         </div>
       )}
-      <h3 className="text-lg font-semibold">{country.name.common}</h3>
+      <h3 className="text-lg font-semibold text-slate-700">
+        {country.name.common}
+      </h3>
       <p className="text-sm text-gray-600">{country.region}</p>
-      <p className="text-sm">
+      <p className="text-sm text-gray-600">
         Population: {country.population.toLocaleString()}
       </p>
     </Link>

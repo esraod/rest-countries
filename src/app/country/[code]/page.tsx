@@ -1,6 +1,7 @@
 import { getCountryByCode } from '@/lib/api'
 import Image from 'next/image'
 import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 
 type Props = { params: Promise<{ code: string }> }
 
@@ -10,7 +11,7 @@ export default async function CountryPage({ params }: Props) {
 
   if (!country) {
     return (
-      <main className="p-6">
+      <main className="min-h-dvh bg-gray-200 p-6">
         <p>Country not found.</p>
         <Link href="/" className="text-blue-600 underline">
           ← Back
@@ -22,14 +23,18 @@ export default async function CountryPage({ params }: Props) {
   const flag = country.flags?.svg || country.flags?.png || ''
 
   return (
-    <main className="p-6">
-      <Link href="/" className="text-blue-600 underline">
-        ← Back
+    <main className="min-h-dvh bg-gray-200 p-6">
+      <Link
+        href="/"
+        className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-3 py-2 shadow-sm hover:bg-gray-50 transition"
+      >
+        <ArrowLeft size={16} />
+        Back
       </Link>
 
       <div className="mt-6 flex flex-col gap-6 lg:flex-row">
         {flag && (
-          <div className="relative w-full lg:w-1/2 aspect-[4/3] rounded-xl overflow-hidden">
+          <div className="relative w-full max-w-md aspect-[4/3] rounded-lg overflow-hidden">
             <Image
               src={flag}
               alt={country.flags?.alt || `${country.name.common} flag`}
@@ -39,7 +44,7 @@ export default async function CountryPage({ params }: Props) {
           </div>
         )}
 
-        <div className="lg:w-1/2 space-y-2">
+        <div className="lg:w-1/2 space-y-2 text-gray-600">
           <h1 className="text-3xl font-bold">{country.name.common}</h1>
           <p>
             <span className="font-semibold">Region:</span> {country.region}

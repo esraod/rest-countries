@@ -46,40 +46,45 @@ export default function CountryExplorer({
 
   return (
     <section>
-      {/* Controls */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
-        <input
-          type="text"
-          placeholder="Search by name…"
-          value={term}
-          onChange={(e) => setTerm(e.target.value)}
-          className="w-full sm:max-w-xs rounded-xl border px-3 py-2"
-        />
+      {/* Sticky controls (sit just below the header) */}
+      <div>
+        <div className="py-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <input
+            type="text"
+            placeholder="Search by name…"
+            value={term}
+            onChange={(e) => setTerm(e.target.value)}
+            className="w-full sm:max-w-xs rounded-lg border border-gray-300 text-gray-600 bg-white px-3 py-2 "
+            aria-label="Search countries by name"
+          />
 
-        <div className="flex gap-3">
-          <select
-            value={region}
-            onChange={(e) => setRegion(e.target.value as Region)}
-            className="rounded-xl border px-3 py-2"
-          >
-            {REGIONS.map((r) => (
-              <option key={r} value={r}>
-                {r}
-              </option>
-            ))}
-          </select>
+          <div className="flex gap-3">
+            <select
+              value={region}
+              onChange={(e) => setRegion(e.target.value as Region)}
+              className="rounded-lg border border-gray-300 text-gray-600 bg-white px-3 py-2 p-4"
+              aria-label="Filter by region"
+            >
+              {REGIONS.map((r) => (
+                <option key={r} value={r}>
+                  {r}
+                </option>
+              ))}
+            </select>
 
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value as SortKey)}
-            className="rounded-xl border px-3 py-2"
-          >
-            {SORTS.map((s) => (
-              <option key={s.key} value={s.key}>
-                {s.label}
-              </option>
-            ))}
-          </select>
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value as SortKey)}
+              className="rounded-lg border border-gray-300 text-gray-600 bg-white px-3 py-2"
+              aria-label="Sort countries"
+            >
+              {SORTS.map((s) => (
+                <option key={s.key} value={s.key}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -95,7 +100,7 @@ export default function CountryExplorer({
           No countries match your filters.
         </div>
       ) : (
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {visible.map((c) => (
             <CountryCard key={c.cca3} country={c} />
           ))}
