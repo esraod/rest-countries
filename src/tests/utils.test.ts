@@ -1,4 +1,3 @@
-import React from 'react'
 import { searchByName, filterByRegion, sortCountries } from '@/lib/utils'
 import type { Country } from '@/lib/api'
 

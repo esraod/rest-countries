@@ -2,10 +2,11 @@ import { getCountryByCode } from '@/lib/api'
 import Image from 'next/image'
 import Link from 'next/link'
 
-type Props = { params: { code: string } }
+type Props = { params: Promise<{ code: string }> }
 
 export default async function CountryPage({ params }: Props) {
-  const country = await getCountryByCode(params.code)
+  const { code } = await params
+  const country = await getCountryByCode(code)
 
   if (!country) {
     return (
@@ -62,8 +63,8 @@ export default async function CountryPage({ params }: Props) {
           {country.currencies && (
             <p>
               <span className="font-semibold">Currencies:</span>{' '}
-              {Object.values(country.currencies)
-                .map((c: any) => c.name)
+              {Object.values(country.currencies ?? {})
+                .map((c) => c.name)
                 .join(', ')}
             </p>
           )}
